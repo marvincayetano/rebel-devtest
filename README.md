@@ -4,8 +4,7 @@
 
 ## Introduction
 
-Toronto lookup waste lookup is an application that helps
-to find specific waste.
+This is a simple application test to all dev applicants.
 
 This application is created using ReactJS, Styled-Components, CSS Grid.
 
