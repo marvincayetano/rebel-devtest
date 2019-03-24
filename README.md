@@ -1,3 +1,18 @@
+<center>
+<img width="640" height="381" src="https://media.giphy.com/media/2sjZb40r8zDvnyLUtb/giphy.gif">
+</center>
+
+## Introduction
+
+Toronto lookup waste lookup is an application that helps
+to find specific waste.
+
+This application is created using ReactJS, Styled-Components, CSS Grid.
+
+## Demo
+
+[Heroku Demo](https:///).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

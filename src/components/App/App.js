@@ -12,12 +12,12 @@ class App extends Component {
     super();
 
     this.state = {
-      visible: false,
       list: [],
       active: {
         index: 0,
         loc: 'right',
       },
+      visible: false
     };
   }
 
@@ -98,7 +98,7 @@ class App extends Component {
           effect="fadeInUp"
           onClickAway={() => this.handleClose()}
         >
-          <AddModal current={list[this.getIndex(active)]} onClose={this.handleClose} onSubmit={this.handleSubmit} />
+          <AddModal current={list[this.getIndex(active)]} onSubmit={this.handleSubmit} onClose={this.handleClose} />
         </Modal>
 
         <GridContainerDiv>

@@ -7,7 +7,6 @@ class ListComponent extends Component {
     super(props);
 
     this.state = {
-      list: props.list,
       active: 0,
     };
   }
@@ -20,9 +19,9 @@ class ListComponent extends Component {
   }
 
   render() {
+    const items = [];
     const { list } = this.props;
     const { active } = this.state;
-    const items = [];
 
     for (let i = 0; i < 15; i += 1) {
       items.push(<tr onClick={() => this.onClick(i)} key={i}><TableData isactive={(active === i).toString()}>{list[i] ? `${list[i].key}=${list[i].value}` : ''}</TableData></tr>);
@@ -37,9 +36,9 @@ class ListComponent extends Component {
 }
 
 ListComponent.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.object),
+  loc: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  loc: PropTypes.string.isRequired
+  list: PropTypes.arrayOf(PropTypes.object)
 };
 
 ListComponent.defaultProps = {
