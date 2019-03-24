@@ -1,22 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ListTable } from '../../styles/AppStyles';
+import { ListTable, TableData } from '../../styles/AppStyles';
 
-const ListComponent = (props) => {
-  const { list } = props;
-  const items = Array(15).fill(<tr><td>{list ? list[0] : ''}</td></tr>);
+class ListComponent extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <ListTable>
-      <tbody>
-        {items}
-      </tbody>
-    </ListTable>
-  );
-};
+    this.state = {
+      list: props.list,
+      active: 0,
+    };
+  }
+
+  componentDidUpdate() {
+    // update state
+  }
+
+  onClick = (i) => {
+    this.setState({ active: i });
+  }
+
+  // TODO: SET ACTIVE APP COMPOENNT active: {leftActive: index, rightActive:index, active: index}
+  render() {
+    const { list, loc } = this.props;
+    const { active } = this.state;
+    const items = [];
+
+    for (let i = 0; i < 15; i += 1) {
+      items.push(<tr onClick={() => this.onClick(i)} key={i}><TableData isactive={(active === i).toString()}>{list[i] ? `${list[i].key}=${list[i].value}` : ''}</TableData></tr>);
+    }
+
+    return (
+      <ListTable>
+        <tbody>{items}</tbody>
+      </ListTable>
+    );
+  }
+}
 
 ListComponent.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.string)
+  list: PropTypes.arrayOf(PropTypes.object),
+  loc: PropTypes.string.isRequired
 };
 
 ListComponent.defaultProps = {

@@ -16,7 +16,7 @@ class AddModal extends Component {
     this.textInput = React.createRef();
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     this.textInput.focus();
   }
 
@@ -60,13 +60,14 @@ class AddModal extends Component {
   }
 
   render() {
-    const { onClose } = this.props;
     const { keyValue, isError } = this.state;
+    const { onClose } = this.props;
+
     const formatError = isError ? <span>Format error...</span> : <span />;
 
     return (
       <ModalGridForm onSubmit={e => this.handleSubmit(e)}>
-        <p>Add</p>
+        <p><b>Add</b> key=value</p>
         <div>
           <input ref={(input) => { this.textInput = input; }} autoComplete="off" value={keyValue} onChange={e => this.handleChange(e)} placeholder="eg. dog=friend" type="text" name="keyValue" required />
           {

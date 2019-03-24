@@ -20,17 +20,18 @@ const GridContainerDiv = styled.div`
 const ListTable = styled.table`
   text-align: left;
   border-collapse: collapse;
+`;
 
-  td {
-    margin: 6px;
-    height: 40px;
-    border: 1px solid #DDDDDD;
-    padding-left: 5px;
-    border-collapse: collapse;
-    :hover {
-      cursor: pointer;
-      background: #3366BB;
-    }
+const TableData = styled.td`
+  margin: 6px;
+  height: 40px;
+  border: 1px solid #DDDDDD;
+  background: ${props => ((props.isactive === 'true') ? '#3366BB' : 'none')};
+  padding-left: 5px;
+  border-collapse: collapse;
+  :hover {
+    cursor: pointer;
+    background: ${props => ((props.isactive === 'true') ? '#3366BB' : '#74A3F2')};
   }
 `;
 
@@ -82,11 +83,12 @@ const ModalButton = styled.button`
 `;
 
 export {
+  TableData,
   ListTable,
   ModalButton,
   ActionButton,
+  ModalGridForm,
   MainContainerDiv,
   GridContainerDiv,
   ButtonContainerDiv,
-  ModalGridForm,
 };

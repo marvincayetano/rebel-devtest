@@ -32,21 +32,18 @@ class App extends Component {
     this.setState({ visible: false });
   }
 
-  handleRemove = () => {
-    // TODO: MODAL
+  handleRemove = (index, loc) => {
+    console.log(`${index}   ${loc}`);
   }
 
   handleClear = () => {
-    this.setState({ list: [{ key: 'gago', value: 'puta' }] });
+    this.setState({ list: [] });
   }
 
   handleExport = () => {
     const { list } = this.state;
-    const pairs = list.map(pair => pair.split('='));
-    const file = `<?xml version="1.0" encoding="UTF-8"?>
-                  <list>
-                  ${pairs.map(pair => `<pair><key>${pair[0]}</key><value>${pair[1]}</value></pair>`)}
-                  </list>`;
+    const file = `<?xml version="1.0" encoding="UTF-8"?><list>${list.map(pair => `<pair><key>${pair.key}</key><value>${pair.value}</value></pair>`).join('')}</list>`;
+
     FileDownload(file, 'list.xml');
   }
 
@@ -90,13 +87,13 @@ class App extends Component {
         </Modal>
 
         <GridContainerDiv>
-          {/* <ListComponent /> */}
+          <ListComponent onClick={this.handleRemove} loc="right" list={list.slice(15, 30)} />
           <ButtonContainerDiv>
             {
               buttonList.map(item => <ButtonComponent key={item.name} name={item.name} onClick={item.handler} />)
             }
           </ButtonContainerDiv>
-          {/* <ListComponent list={list} /> */}
+          <ListComponent onClick={this.handleRemove} loc="left" list={list.slice(0, 15)} />
         </GridContainerDiv>
       </MainContainerDiv>
     );
