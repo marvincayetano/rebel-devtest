@@ -11,7 +11,7 @@ This application is created using ReactJS, Styled-Components, CSS Grid.
 
 ## Demo
 
-[Heroku Demo](https:///).
+[Heroku Demo](https://rebel-devtest.herokuapp.com/).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
