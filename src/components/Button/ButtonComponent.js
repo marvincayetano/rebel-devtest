@@ -3,7 +3,7 @@ import { ActionButton } from '../../styles/AppStyles';
 
 const ButtonComponent = (props) => {
   return (
-
+    <ActionButton onClick={() => props.handler()}>{props.name}</ActionButton>
   );
 };
 

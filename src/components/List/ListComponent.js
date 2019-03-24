@@ -2,7 +2,7 @@ import React from 'react';
 import { ListTable } from '../../styles/AppStyles';
 
 const ListComponent = (props) => {
-  const items = Array(15).fill(<tr><td>ASDASD</td></tr>)
+  const items = Array(15).fill(<tr><td></td></tr>)
 
   return (
     <ListTable>
