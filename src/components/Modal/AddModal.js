@@ -16,6 +16,13 @@ class AddModal extends Component {
     this.textInput = React.createRef();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { keyValue } = this.state;
+    const newKeyValue = nextProps.current ? `${nextProps.current.key}=${nextProps.current.value}` : '';
+
+    if (newKeyValue !== keyValue) this.setState({ keyValue: newKeyValue });
+  }
+
   componentDidUpdate() {
     this.textInput.focus();
   }
@@ -25,21 +32,18 @@ class AddModal extends Component {
     const { value } = event.target;
     const splitStr = value.split('=');
 
-    if (this.validateString(splitStr)) {
-      this.setState({ isError: false });
-    } else {
-      this.setState({ isError: true });
-    }
+    if (this.validateString(splitStr)) this.setState({ isError: false });
+    else this.setState({ isError: true });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
     const { value } = event.target.keyValue;
-    const { ismax, onSubmit } = this.props;
+    const { onSubmit } = this.props;
 
     const splitStr = value.split('=');
-    if (this.validateString(splitStr) && splitStr.length === 2 && !ismax) {
+    if (this.validateString(splitStr) && splitStr.length === 2) {
       onSubmit(splitStr);
       this.setState({ keyValue: '' });
     } else {
@@ -52,24 +56,21 @@ class AddModal extends Component {
     const { pattern } = this.state;
     const trimmedStr = str.map(s => s.trim());
 
-    if (trimmedStr[0].match(pattern) && pattern.test(trimmedStr[1])) {
-      return `${trimmedStr[0]}=${trimmedStr[1]}`;
-    }
+    if (trimmedStr[0].match(pattern) && pattern.test(trimmedStr[1])) return `${trimmedStr[0]}=${trimmedStr[1]}`;
 
     return undefined;
   }
 
   render() {
     const { keyValue, isError } = this.state;
-    const { ismax, onClose } = this.props;
-
-    const formatError = isError ? <span>{ismax ? 'List is full' : 'Format error'}</span> : <span />;
+    const { current, onClose } = this.props;
+    const formatError = isError ? <span>Invalid format</span> : <span />;
 
     return (
       <ModalGridForm onSubmit={e => this.handleSubmit(e)}>
-        <p><b>Add</b> key=value</p>
+        <p><b>{current ? 'Edit' : 'Add'}</b> key=value</p>
         <div>
-          <input ref={(input) => { this.textInput = input; }} autoComplete="off" value={keyValue} onChange={e => this.handleChange(e)} placeholder="eg. dog=friend" type="text" name="keyValue" required />
+          <input ref={(input) => { this.textInput = input; }} autoComplete="off" value={keyValue} onChange={e => this.handleChange(e)} placeholder="eg. dog=friend" type="text" name="keyValue" />
           {
             formatError
           }
@@ -84,7 +85,11 @@ class AddModal extends Component {
 AddModal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  ismax: PropTypes.bool.isRequired
+  current: PropTypes.object
+};
+
+AddModal.defaultProps = {
+  current: undefined,
 };
 
 export default AddModal;

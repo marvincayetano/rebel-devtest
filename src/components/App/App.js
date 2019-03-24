@@ -28,7 +28,7 @@ class App extends Component {
   handleSubmit = (value) => {
     const { list, active } = this.state;
 
-    list[active.loc === 'left' ? active.index + 15 : active.index] = ({ key: value[0], value: value[1] });
+    list[this.getIndex(active)] = ({ key: value[0], value: value[1] });
     this.handleClose();
   }
 
@@ -43,11 +43,8 @@ class App extends Component {
   handleRemove = () => {
     const { list, active } = this.state;
 
-    if (active.loc === 'left') {
-      list[active.index + 15] = undefined;
-    } else {
-      list[active.index] = undefined;
-    }
+    if (active.loc === 'left') list[active.index + 15] = undefined;
+    else list[active.index] = undefined;
 
     this.setState({ list });
   }
@@ -77,6 +74,8 @@ class App extends Component {
     });
   }
 
+  getIndex = active => (active.loc === 'left' ? active.index + 15 : active.index);
+
   render() {
     const buttonList = [
       { name: 'Add', handler: this.handleAdd },
@@ -87,7 +86,7 @@ class App extends Component {
       { name: 'Sort by Value', handler: this.handleSortValue }
     ];
 
-    const { visible, list } = this.state;
+    const { active, visible, list } = this.state;
 
     return (
       <MainContainerDiv>
@@ -99,7 +98,7 @@ class App extends Component {
           effect="fadeInUp"
           onClickAway={() => this.handleClose()}
         >
-          <AddModal onClose={this.handleClose} ismax={list.length === 30} onSubmit={this.handleSubmit} />
+          <AddModal current={list[this.getIndex(active)]} onClose={this.handleClose} onSubmit={this.handleSubmit} />
         </Modal>
 
         <GridContainerDiv>
