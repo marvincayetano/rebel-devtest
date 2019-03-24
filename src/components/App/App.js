@@ -14,6 +14,10 @@ class App extends Component {
     this.state = {
       visible: false,
       list: [],
+      active: {
+        index: 0,
+        loc: 'right',
+      },
     };
   }
 
@@ -22,9 +26,9 @@ class App extends Component {
   }
 
   handleSubmit = (value) => {
-    const { list } = this.state;
+    const { list, active } = this.state;
 
-    list.push({ key: value[0], value: value[1] });
+    list[active.loc === 'left' ? active.index + 15 : active.index] = ({ key: value[0], value: value[1] });
     this.handleClose();
   }
 
@@ -32,8 +36,20 @@ class App extends Component {
     this.setState({ visible: false });
   }
 
-  handleRemove = (index, loc) => {
-    console.log(`${index}   ${loc}`);
+  handleActivePair = (index, loc) => {
+    this.setState({ active: { index, loc } });
+  }
+
+  handleRemove = () => {
+    const { list, active } = this.state;
+
+    if (active.loc === 'left') {
+      list[active.index + 15] = undefined;
+    } else {
+      list[active.index] = undefined;
+    }
+
+    this.setState({ list });
   }
 
   handleClear = () => {
@@ -42,7 +58,7 @@ class App extends Component {
 
   handleExport = () => {
     const { list } = this.state;
-    const file = `<?xml version="1.0" encoding="UTF-8"?><list>${list.map(pair => `<pair><key>${pair.key}</key><value>${pair.value}</value></pair>`).join('')}</list>`;
+    const file = `<?xml version="1.0" encoding="UTF-8"?><list>${list.map(pair => (pair ? `<pair><key>${pair.key}</key><value>${pair.value}</value></pair>` : '')).join('')}</list>`;
 
     FileDownload(file, 'list.xml');
   }
@@ -83,17 +99,17 @@ class App extends Component {
           effect="fadeInUp"
           onClickAway={() => this.handleClose()}
         >
-          <AddModal onClose={this.handleClose} onSubmit={this.handleSubmit} />
+          <AddModal onClose={this.handleClose} ismax={list.length === 30} onSubmit={this.handleSubmit} />
         </Modal>
 
         <GridContainerDiv>
-          <ListComponent onClick={this.handleRemove} loc="right" list={list.slice(15, 30)} />
+          <ListComponent onClick={this.handleActivePair} loc="left" list={list.slice(15, 30)} />
           <ButtonContainerDiv>
             {
               buttonList.map(item => <ButtonComponent key={item.name} name={item.name} onClick={item.handler} />)
             }
           </ButtonContainerDiv>
-          <ListComponent onClick={this.handleRemove} loc="left" list={list.slice(0, 15)} />
+          <ListComponent onClick={this.handleActivePair} loc="right" list={list.slice(0, 15)} />
         </GridContainerDiv>
       </MainContainerDiv>
     );

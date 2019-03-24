@@ -36,10 +36,10 @@ class AddModal extends Component {
     event.preventDefault();
 
     const { value } = event.target.keyValue;
-    const { onSubmit } = this.props;
+    const { ismax, onSubmit } = this.props;
 
     const splitStr = value.split('=');
-    if (this.validateString(splitStr) && splitStr.length === 2) {
+    if (this.validateString(splitStr) && splitStr.length === 2 && !ismax) {
       onSubmit(splitStr);
       this.setState({ keyValue: '' });
     } else {
@@ -56,14 +56,14 @@ class AddModal extends Component {
       return `${trimmedStr[0]}=${trimmedStr[1]}`;
     }
 
-    return null;
+    return undefined;
   }
 
   render() {
     const { keyValue, isError } = this.state;
-    const { onClose } = this.props;
+    const { ismax, onClose } = this.props;
 
-    const formatError = isError ? <span>Format error...</span> : <span />;
+    const formatError = isError ? <span>{ismax ? 'List is full' : 'Format error'}</span> : <span />;
 
     return (
       <ModalGridForm onSubmit={e => this.handleSubmit(e)}>
@@ -83,7 +83,8 @@ class AddModal extends Component {
 
 AddModal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  ismax: PropTypes.bool.isRequired
 };
 
 export default AddModal;

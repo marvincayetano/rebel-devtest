@@ -12,17 +12,15 @@ class ListComponent extends Component {
     };
   }
 
-  componentDidUpdate() {
-    // update state
-  }
-
   onClick = (i) => {
+    const { onClick, loc } = this.props;
+
     this.setState({ active: i });
+    onClick(i, loc);
   }
 
-  // TODO: SET ACTIVE APP COMPOENNT active: {leftActive: index, rightActive:index, active: index}
   render() {
-    const { list, loc } = this.props;
+    const { list } = this.props;
     const { active } = this.state;
     const items = [];
 
@@ -40,6 +38,7 @@ class ListComponent extends Component {
 
 ListComponent.propTypes = {
   list: PropTypes.arrayOf(PropTypes.object),
+  onClick: PropTypes.func.isRequired,
   loc: PropTypes.string.isRequired
 };
 
