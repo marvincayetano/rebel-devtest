@@ -1,20 +1,36 @@
 import React, { Component } from 'react';
+import Modal from 'react-awesome-modal';
 import { MainContainerDiv, GridContainerDiv, ButtonContainerDiv } from '../../styles/AppStyles';
 
 import ListComponent from '../List/ListComponent';
 import ButtonComponent from '../Button/ButtonComponent';
+import AddModal from '../Modal/AddModal';
 
 class App extends Component {
   constructor() {
     super();
 
-    this.handleAdd = this.handleAdd.bind( this );
+    this.state = {
+      visible: false
+    };
   }
 
   componentDidMount = () => {}
 
   handleAdd = () => {
-    console.log('handler');
+    this.setState({ visible: true });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { value } = event.target.keyValue;
+
+    console.log(value);
+    this.handleClose();
+  }
+
+  handleClose = () => {
+    this.setState({ visible: false });
   }
 
   handleRemove = () => {
@@ -35,26 +51,37 @@ class App extends Component {
 
   render() {
     const buttonList = [
-      { 'name': 'Add', 'handler': this.handleAdd },
-      { 'name': 'Remove Selected', 'handler': this.handleRemove },
-      { 'name': 'Clear', 'handler': this.handleClear },
-      { 'name': 'Export to JSON', 'handler': this.handleExport },
-      { 'name': 'Sort by Name', 'handler': this.handleSort },
-      { 'name': 'Sort by Value', 'handler': this.handleSort }
+      { name: 'Add', handler: this.handleAdd },
+      { name: 'Remove Selected', handler: this.handleRemove },
+      { name: 'Clear', handler: this.handleClear },
+      { name: 'Export to XML', handler: this.handleExport },
+      { name: 'Sort by Name', handler: this.handleSort },
+      { name: 'Sort by Value', handler: this.handleSort }
     ];
+
+    const { visible } = this.state;
 
     return (
       <MainContainerDiv>
+
+        <Modal
+          visible={visible}
+          width="400"
+          height="300"
+          effect="fadeInUp"
+          onClickAway={() => this.handleClose()}
+        >
+          <AddModal onClose={this.handleClose} onSubmit={this.handleSubmit} />
+        </Modal>
+
         <GridContainerDiv>
-          <ListComponent/>
+          <ListComponent />
           <ButtonContainerDiv>
             {
-              buttonList.map((item, i) => {
-                return <ButtonComponent key={i} name={item['name']} handler={item['handler']}></ButtonComponent>;
-              })
+              buttonList.map(item => <ButtonComponent key={item.name} name={item.name} onClick={item.handler} />)
             }
           </ButtonContainerDiv>
-          <ListComponent/>
+          <ListComponent />
         </GridContainerDiv>
       </MainContainerDiv>
     );

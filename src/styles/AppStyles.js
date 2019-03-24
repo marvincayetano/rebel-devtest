@@ -50,11 +50,32 @@ const ButtonContainerDiv = styled.div`
   grid-auto-rows: minmax(10px, 40px);
 `;
 
+const ModalGridForm = styled.form`
+  height: 100%;
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  > p {
+    font-weight: 500;
+    grid-area: 1 / 2;
+  }
+  > input {
+    grid-area: 2 / 2;
+    text-align: center;
+  }
+`;
+
+const ModalButton = styled.button`
+  grid-area: 3 / ${props => props.grid};
+`;
 
 export {
   ListTable,
+  ModalButton,
   ActionButton,
   MainContainerDiv,
   GridContainerDiv,
   ButtonContainerDiv,
-}
+  ModalGridForm,
+};
