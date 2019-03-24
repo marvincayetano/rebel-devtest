@@ -25,6 +25,7 @@ const ListTable = styled.table`
     margin: 6px;
     height: 40px;
     border: 1px solid #DDDDDD;
+    padding-left: 5px;
     border-collapse: collapse;
     :hover {
       cursor: pointer;
@@ -56,13 +57,23 @@ const ModalGridForm = styled.form`
   place-items: center;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  > div {
+    height: 100%;
+    display: grid;
+    grid-area: 2 / 2;
+    place-items: center;
+    grid-template-rows: repeat(2, 1fr);
+    > input {
+      text-align: center;
+    }
+    > span {
+      color: red;
+      font-size: 12px;
+    }
+  }
   > p {
     font-weight: 500;
     grid-area: 1 / 2;
-  }
-  > input {
-    grid-area: 2 / 2;
-    text-align: center;
   }
 `;
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-awesome-modal';
+import FileDownload from 'js-file-download';
 import { MainContainerDiv, GridContainerDiv, ButtonContainerDiv } from '../../styles/AppStyles';
 
 import ListComponent from '../List/ListComponent';
@@ -11,21 +12,19 @@ class App extends Component {
     super();
 
     this.state = {
-      visible: false
+      visible: false,
+      list: [],
     };
   }
-
-  componentDidMount = () => {}
 
   handleAdd = () => {
     this.setState({ visible: true });
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { value } = event.target.keyValue;
+  handleSubmit = (value) => {
+    const { list } = this.state;
 
-    console.log(value);
+    list.push({ key: value[0], value: value[1] });
     this.handleClose();
   }
 
@@ -38,15 +37,31 @@ class App extends Component {
   }
 
   handleClear = () => {
-    // TODO: MODAL
+    this.setState({ list: [{ key: 'gago', value: 'puta' }] });
   }
 
   handleExport = () => {
-    // TODO: MODAL
+    const { list } = this.state;
+    const pairs = list.map(pair => pair.split('='));
+    const file = `<?xml version="1.0" encoding="UTF-8"?>
+                  <list>
+                  ${pairs.map(pair => `<pair><key>${pair[0]}</key><value>${pair[1]}</value></pair>`)}
+                  </list>`;
+    FileDownload(file, 'list.xml');
   }
 
-  handleSort = () => {
-    // TODO: MODAL
+  handleSortName = () => {
+    const { list } = this.state;
+    this.setState({
+      list: list.sort((x, y) => ((x.key > y.key) ? 1 : -1))
+    });
+  }
+
+  handleSortValue = () => {
+    const { list } = this.state;
+    this.setState({
+      list: list.sort((x, y) => ((x.value > y.value) ? 1 : -1))
+    });
   }
 
   render() {
@@ -55,19 +70,19 @@ class App extends Component {
       { name: 'Remove Selected', handler: this.handleRemove },
       { name: 'Clear', handler: this.handleClear },
       { name: 'Export to XML', handler: this.handleExport },
-      { name: 'Sort by Name', handler: this.handleSort },
-      { name: 'Sort by Value', handler: this.handleSort }
+      { name: 'Sort by Name', handler: this.handleSortName },
+      { name: 'Sort by Value', handler: this.handleSortValue }
     ];
 
-    const { visible } = this.state;
+    const { visible, list } = this.state;
 
     return (
       <MainContainerDiv>
 
         <Modal
           visible={visible}
-          width="400"
-          height="300"
+          width="350"
+          height="250"
           effect="fadeInUp"
           onClickAway={() => this.handleClose()}
         >
@@ -75,13 +90,13 @@ class App extends Component {
         </Modal>
 
         <GridContainerDiv>
-          <ListComponent />
+          {/* <ListComponent /> */}
           <ButtonContainerDiv>
             {
               buttonList.map(item => <ButtonComponent key={item.name} name={item.name} onClick={item.handler} />)
             }
           </ButtonContainerDiv>
-          <ListComponent />
+          {/* <ListComponent list={list} /> */}
         </GridContainerDiv>
       </MainContainerDiv>
     );
