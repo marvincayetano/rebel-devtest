@@ -6,7 +6,7 @@
 
 This is a simple application test to all dev applicants.
 
-This application is created using ReactJS, Styled-Components, CSS Grid.
+This application is created with ReactJS, Styled-Components, CSS Grid.
 
 ## Demo
 

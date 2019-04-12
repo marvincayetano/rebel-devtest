@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ListTable, TableData } from '../../styles/AppStyles';
 
-class ListComponent extends Component {
+export default class ListComponent extends Component {
   constructor(props) {
     super(props);
 
@@ -11,20 +11,23 @@ class ListComponent extends Component {
     };
   }
 
-  onClick = (i) => {
-    const { onClick, loc } = this.props;
-
+  onClick = (i, loc) => {
+    const { onClick } = this.props;
     this.setState({ active: i });
     onClick(i, loc);
   }
 
   render() {
     const items = [];
-    const { list } = this.props;
+    const { list, loc, onDoubleClick } = this.props;
     const { active } = this.state;
 
     for (let i = 0; i < 15; i += 1) {
-      items.push(<tr onClick={() => this.onClick(i)} key={i}><TableData isactive={(active === i).toString()}>{list[i] ? `${list[i].key}=${list[i].value}` : ''}</TableData></tr>);
+      items.push(
+        <tr onDoubleClick={() => onDoubleClick && onDoubleClick()} onClick={() => this.onClick(i, loc)} key={i}>
+          <TableData isactive={(active === i).toString()}>{list[i] && `${list[i].key}=${list[i].value}`}</TableData>
+        </tr>
+      );
     }
 
     return (
@@ -36,13 +39,13 @@ class ListComponent extends Component {
 }
 
 ListComponent.propTypes = {
-  loc: PropTypes.string.isRequired,
+  onDoubleClick: PropTypes.func,
   onClick: PropTypes.func.isRequired,
-  list: PropTypes.arrayOf(PropTypes.object)
+  list: PropTypes.arrayOf(PropTypes.object),
+  loc: PropTypes.string.isRequired
 };
 
 ListComponent.defaultProps = {
+  onDoubleClick: undefined,
   list: [],
 };
-
-export default ListComponent;

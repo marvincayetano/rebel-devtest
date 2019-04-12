@@ -5,9 +5,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo-boost": "^0.3.1",
+    "graphql": "^14.2.1",
+    "graphql-tag": "^2.10.1",
     "js-file-download": "^0.4.5",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
+    "react-apollo": "^2.5.3",
     "react-awesome-modal": "^2.0.5",
     "react-dom": "^16.8.4",
     "react-scripts": "2.1.8",
