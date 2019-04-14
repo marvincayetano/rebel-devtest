@@ -14,7 +14,7 @@ const GridContainerDiv = styled.div`
   display: grid;
   grid-column-gap: 50px;
   grid-template-rows: 1fr;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(150px, 1fr));
 `;
 
 const ListTable = styled.table`
